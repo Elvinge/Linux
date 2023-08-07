@@ -1,0 +1,24 @@
+touch file1.txt - создание file1.txt
+touch file2.txt -  создание file2.tx
+ls - просмотр файлов в директории
+cat file1 file2 > file12 - объединение файлов в один новый файл
+nano file12.txt открыть файл
+mkdir dir1 - создать директорию
+sudo mv file57.txt /home/dir1  
+rm -r dir1 удалить директорию содержимым
+rm file1.txt удаление файла
+rm file2.txt удаление файла
+rm file12.txt удаление файла
+
+touch file1.txt создать файл
+cp file1.txt file2.txt копировать файл
+ln -s file2.txt file3.txt создание динамической ссылки
+rm file1.txt если удалить первый файл то другия два остануться без изменений, но если удалить file2.txt то file3.txt станет нерабочим
+
+touch file13,txt
+nano file13.txt через nano переименовать файл в  file15.txt
+ln -s file15.txt file17.txt динамическая ссылка
+mkdir dir1
+mv file17.txt dir1
+cd dir1
+ls  Динамическая ссылка не работает в другой директории 
