@@ -1,0 +1,49 @@
+sudo apt update
+sudo apt install apache2 php-fpm
+wget https://mirrors.edge.kernel.org/ubuntu/pool/multiverse/liba/libapache-mod-fastcgi/libapache2-mod-fastcgi_2.4.7~0910052141-1.2_amd64.deb
+sudo dpkg -i libapache2-mod-fastcgi_2.4.7~0910052141-1.2_amd64.deb
+
+
+sudo mv /etc/apache2/ports.conf /etc/apache2/ports.conf.default
+echo "Listen 8080" | sudo tee /etc/apache2/ports.conf
+
+sudo a2dissite 000-default
+sudo cp /etc/apache2/sites-available/000-default.conf /etc/apache2/sites-available/001-default.conf
+sudo nano /etc/apache2/sites-available/001-default.conf
+
+sudo a2ensite 001-default
+sudo systemctl reload apache2
+sudo netstat -tlpn
+
+sudo mkdir -v /var/www/1.net /var/www/2.io
+echo "<h1 style='color: green;'>1</h1>" | sudo tee /var/www/1.net/index.html
+echo "<h1 style='color: red;'>2</h1>" | sudo tee /var/www/2.io/index.html
+echo "<?php phpinfo(); ?>" | sudo tee /var/www/1.net/info.php
+echo "<?php phpinfo(); ?>" | sudo tee /var/www/2.io/info.php
+sudo nano /etc/apache2/sites-available/1.net.conf
+sudo nano /etc/apache2/sites-available/2.io.conf
+sudo a2ensite 1.net
+sudo a2ensite 2.io
+sudo apachectl -t
+sudo systemctl reload apache2
+
+
+sudo apt install nginx
+sudo rm /etc/nginx/sites-enabled/default
+sudo mkdir -v /usr/share/nginx/example.com /usr/share/nginx/sample.org
+echo "<h1 style='color: green;'>3.com</h1>" | sudo tee /usr/share/nginx/3.com/index.html
+echo "<h1 style='color: red;'>4.org</h1>" | sudo tee /usr/share/nginx/4.org/index.html
+echo "<?php phpinfo(); ?>" | sudo tee /usr/share/nginx/3.com/info.php
+echo "<?php phpinfo(); ?>" | sudo tee /usr/share/nginx/4.org/info.php
+sudo nano /etc/nginx/sites-available/3.com
+sudo nano etc/nginx/sites-available/4.org
+sudo ln -s /etc/nginx/sites-available/3.com /etc/nginx/sites-enabled/3.com
+sudo ln -s /etc/nginx/sites-available/4.org /etc/nginx/sites-enabled/4.org
+sudo nginx -t
+sudo systemctl reload nginx
+
+sudo nano /etc/nginx/sites-available/apache
+sudo ln -s /etc/nginx/sites-available/apache /etc/nginx/sites-enabled/apache
+sudo nginx -t
+sudo systemctl reload nginx
+
