@@ -1,0 +1,43 @@
+apt-get -y install docker.io
+ln -sf /usr/bin/docker.io /usr/local/bin/docker
+sed -i '$acomplete -F _docker docker' /etc/bash_completion.d/docker.io
+service docker.io status
+
+
+
+docker-compose --version
+mkdir wordpress
+cd wordpress
+cat docker-compose.yml
+
+version: '2'
+
+services:
+	db:
+		image: mysql:5.7
+		volumes:
+			- db_data:/var/lib/mysql
+		restart: always
+		environment:
+			MYSQL_ROOT_PASSWORD: wpdbpassword
+			MYSQL_DATABASE: wordpress
+			МYSQL_USЕR: wordpress
+			MYSQL_PASSWORD: wordpress
+	wordpress:
+		depends_on:
+			- db
+		image: wordpress:latest
+		ports:
+			- "8000:80"
+		restart: always
+		environment:
+			WORDPRESS_DB_HOST: db:3306
+			WORDPRESS_DB_USER: wordpress
+			WORDPRESS_DB_PASSWORD: wordpress
+volumes:
+	db_data:
+
+
+
+docker-compose up -d
+http://127.0.0.1:8000
